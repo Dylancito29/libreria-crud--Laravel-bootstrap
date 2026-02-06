@@ -19,7 +19,8 @@
           <button class="input-group-text btn btn-outline-primary" id="btnGroupAddon2"><i class="bi bi-search"></i></button>
         </div>
         <div>
-          <button type="button" class="btn btn-success" >add new book <i class="bi bi-plus"></i></button>
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddBook" >add new book <i class="bi bi-plus"></i></button>
+            @include('books.addModal')
         </div>
 
     </div>
@@ -53,9 +54,10 @@
   
         <td>
           <div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ $book->id }}" >
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalShowBook{{ $book->id }}" >
               <i class="bi bi-eye"></i>
             </button>
+            @include('books.showBook', ['book' => $book])
             
             
           </div>

@@ -15,12 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
-Route::get('/Books/dashboard', [BooksController::class, 'dashboard'] )->name('books.dashboard');
+
+Route::get('/', [BooksController::class, 'dashboard'] )->name('books.dashboard');
 Route::get('/Books/add',[BooksController::class, 'add'])->name('books.add');
 Route::post('/Books/store',[BooksController::class,'store'])->name('books.store');
 Route::get('/Books/catalog',[BooksController::class,'catalog'])->name('books.catalog') ;
@@ -30,3 +28,6 @@ Route::get('/Books/update',[BooksController::class,'updateView'])->name('books.u
 
 Route::get('/Books/delete',[BooksController::class,'delete'])->name('books.delete');
 Route::post('/Books/destroy',[BooksController::class,'destroy'])->name('books.destroy');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

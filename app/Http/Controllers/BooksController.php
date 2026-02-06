@@ -16,9 +16,11 @@ class BooksController extends Controller
     public function store(Request $request){
         // Lógica para almacenar el libro
         $request->validate([
-            'nombre'=>'required|string|max:255',
-            'descripcion'=>'required|string',
-            'autor'=>'required|string|max:255'
+            'title'=>'required|string|max:255',
+            'category'=>'required|string|max:255',
+            'author'=>'required|string|max:255',
+            'stock'=>'required|integer',
+            'cover'=>'required|string|max:255'
         ]);
         
         $libro = new Books();
@@ -30,7 +32,8 @@ class BooksController extends Controller
 
         $libro->save();
 
-        return redirect()->back()->with('success','Libro creado con exito!');
+        
+        return redirect()->back()->with('success','Book created successfully!');
 
 
     }
@@ -52,18 +55,18 @@ class BooksController extends Controller
         return redirect()->back()->with('success','Book updated successfully!');
         
     }
-    public function eliminar(){
-        $libros = Books::all();
-        return view('books.eliminar', compact('libros'));
+    public function delete(){
+        $books = Books::all();
+        return view('books.delete', compact('books'));
     }
     public function destroy(Request $request){
-        $Id = $request->input('libro_id');
-        $libro = Books::find($Id);
-        if($libro){
-            $libro->delete();
-            return redirect()->back()->with('success','Libro eliminado con exito!');
+        $Id = $request->input('book_id');
+        $book = Books::find($Id);
+        if($book){
+            $book->delete();
+            return redirect()->back()->with('success','Book deleted successfully!');
         }else{
-            return redirect()->back()->with('error','Libro no encontrado.');
+            return redirect()->back()->with('error','Book not found.');
         }
     }
 
