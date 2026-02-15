@@ -13,27 +13,27 @@
                 <div class="card-body p-0">
                     @if(Session::has('cart') && count(Session::get('cart')) > 0)
                         <div class="list-group list-group-flush">
-                            @foreach(Session::get('cart') as  => )
+                            @foreach(Session::get('cart') as $id => $details)
                                 <div class="list-group-item p-4 d-flex align-items-center gap-4 hover-bg-light transition-all">
                                     <!-- Book Cover -->
                                     <div class="position-relative shadow-sm rounded overflow-hidden flex-shrink-0" style="width: 80px; height: 110px;">
-                                        <img src="{{ ['cover_msg'] }}" class="w-100 h-100 object-fit-cover" alt="{{ ['name'] }}">
+                                        <img src="{{ $details['cover'] }}" class="w-100 h-100 object-fit-cover" alt="{{ $details['title'] }}">
                                     </div>
 
                                     <!-- Book Info -->
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h5 class="fw-bold mb-0 text-dark">{{ ['name'] }}</h5>
-                                            <a href="{{ route('books.removeFromCart', ) }}" class="btn btn-outline-danger btn-sm border-0 rounded-circle p-2" title="Eliminar del préstamo">
+                                            <h5 class="fw-bold mb-0 text-dark">{{ $details['title'] }}</h5>
+                                            <a href="{{ route('books.removeFromCart', $id) }}" class="btn btn-outline-danger btn-sm border-0 rounded-circle p-2" title="Eliminar del préstamo">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </div>
                                         
-                                        <p class="text-muted mb-2 small"><i class="bi bi-person me-1"></i> {{ ['author'] }}</p>
+                                        <p class="text-muted mb-2 small"><i class="bi bi-person me-1"></i> {{ $details['author'] }}</p>
                                         
                                         <div class="d-flex align-items-center gap-2">
                                             <span class="badge bg-light text-secondary border">
-                                                <i class="bi bi-tag me-1"></i> {{ ['category'] }}
+                                                <i class="bi bi-tag me-1"></i> {{ $details['category'] ?? 'N/A' }}
                                             </span>
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                             </div>
                             <h5 class="text-secondary fw-bold">Tu lista de préstamos está vacía</h5>
                             <p class="text-muted small mb-4">¡Agrega libros para comenzar tu aventura!</p>
-                            <a href="{{ route('books.index') }}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                            <a href="{{ route('books.catalog') }}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
                                 <i class="bi bi-search me-2"></i>Explorar Catálogo
                             </a>
                         </div>

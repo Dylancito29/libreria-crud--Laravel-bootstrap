@@ -84,6 +84,12 @@
                         <span>Shopping Cart</span>
                      </a>
                    </li>
+                   <li class="nav-item">
+                     <a class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded {{ request()->routeIs('books.myLoans') ? 'bg-primary text-white active-link' : 'text-dark hover-bg-light' }}" href="{{ route('books.myLoans') }}">
+                        <i class="bi bi-clock-history fs-5"></i> 
+                        <span>My Loans</span>
+                     </a>
+                   </li>
 
                    <li class="nav-item">
                         <small class="text-uppercase text-muted fw-bold ms-3 mt-4 mb-1 d-block" style="font-size: 0.75rem;">Administrator</small>
@@ -115,8 +121,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link py-2 d-flex align-items-center gap-2 {{ request()->routeIs('books.lendView') ? 'text-primary fw-bold' : 'text-secondary' }}" href="{{ route('books.lendView') }}">
-                                        <i class="bi bi-journal-arrow-up"></i> Lend Book
+                                    <a class="nav-link py-2 d-flex align-items-center gap-2 {{ request()->routeIs('loans.active') ? 'text-primary fw-bold' : 'text-secondary' }}" href="{{ route('loans.active') }}">
+                                        <i class="bi bi-clipboard-data"></i> Active Loans
                                     </a>
                                 </li>
                             </ul>
@@ -128,9 +134,13 @@
              <!-- Footer Section -->
              <div class="p-3 border-top bg-light">
                  <div class="d-grid gap-2">
-                     <button class="btn btn-outline-danger d-flex align-items-center justify-content-center gap-2">
+                     <a class="btn btn-outline-danger d-flex align-items-center justify-content-center gap-2" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                          <i class="bi bi-box-arrow-right"></i> Log Out
-                     </button>
+                     </a>
+                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                         @csrf
+                     </form>
                  </div>
                  <div class="text-center mt-3 text-muted" style="font-size: 0.7rem;">
                      PlexBook v1.0 &copy; {{ date('Y') }}

@@ -13,7 +13,29 @@ class BooksController extends Controller
         return view('books.create');
     }
     public function dashboard(){
-        return view('books.dashboard');
+        // Get user stats
+        $user = auth()->user();
+        
+        $activeLoansCount = 0;
+        $pendingReturnsCount = 0;
+        
+        if($user){
+             $activeLoansCount = \App\Loan::where('user_id', $user->id)
+                                        ->where('status', 'active')
+                                        ->count();
+            
+             // Books due soon (next 3 days)
+             $pendingReturnsCount = \App\Loan::where('user_id', $user->id)
+                                            ->where('status', 'active')
+                                            ->whereDate('return_date', '<=', now()->addDays(3))
+                                            ->count();
+        }
+
+        // Get some featured books (e.g., random 3)
+        $featuredBooks = Book::inRandomOrder()->take(3)->get();
+        $totalBooks = Book::count();
+
+        return view('books.dashboard', compact('activeLoansCount', 'pendingReturnsCount', 'featuredBooks', 'totalBooks'));
     }
     public function store(Request $request){
         // Lógica para almacenar el libro
@@ -76,8 +98,9 @@ class BooksController extends Controller
             'quantity' => 1,
             'cover' => $book->cover_url, 
             'author' => optional($book->author)->name,
-            'category' => $book->category->name,
+            'category' => optional($book->category)->name,
         ];
+        
 
         // 6. Storing the Bag (Saving to Session)
         // Analogy: We put the updated bag back into the user's locker so it's there on the next page load.
@@ -238,7 +261,19 @@ class BooksController extends Controller
         return redirect()->back()->with('error', "loan doen't found");
     }
 
-    
+    public function myLoans(){
+        $loans = \App\Loan::with('book.author')
+            ->where('user_id', auth()->id())
+            ->orderBy('created_at','desc')
+            ->paginate(10);
+        
+        return view('books.my_loans', compact('loans'));
+    }
+
+
+
+
+
 
     public function delete(){
         $books = Books::all();

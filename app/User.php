@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role_id'
     ];
 
     /**
@@ -51,5 +51,21 @@ class User extends Authenticatable
     public function loans()
     {
         return $this->hasMany(Loan::class);
+    }
+    
+    // RELATIONSHIP: "The ID Card"
+    // A user ALWAYS has ONE role (Admin or User).
+    // Usage: $user->role->name
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // A helper to quickly check if the user is an admin
+    public function isAdmin() {
+        if ($this->role->Rol_name == 'admin') {
+            return true;
+        }
+        return false;
     }
 }
